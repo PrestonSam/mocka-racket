@@ -1,0 +1,3 @@
+mockadoc
+========
+README text here.
