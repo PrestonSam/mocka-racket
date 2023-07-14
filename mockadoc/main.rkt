@@ -11,12 +11,20 @@
    #`(module mockadoc-mod mockadoc/expander
        #,parse-tree)))
 
+(define (read-mockadoc-syntax file-path)
+  (define port
+    (open-input-file file-path))
+  (read-line port)
+  (read-syntax file-path port))
+
+(provide read-mockadoc-syntax)
+
 (module+ reader
   (provide read-syntax))
 
-(define src "/home/sam/Talanta10/dfs-portal-be/codegen/Racket/Experimental/Events/Transaction/event.mkd")
+#;(define src "/home/sam/Talanta10/dfs-portal-be/codegen/Racket/Experimental/Events/Transaction/event.mkd")
 
-(define (make-syntax-tree)
+#;(define (make-syntax-tree)
   (let* ([port (open-input-file src)])
     (read-string (string-length "#lang mockadoc\n") port)
     (parse src (make-tokeniser port src))))
@@ -24,7 +32,7 @@
 #;(define syntax-tree
   (make-syntax-tree))
 
-(define (make-token-tree)
+#;(define (make-token-tree)
   (define next
     (let* ([port (open-input-file src)])
       (read-string (string-length "#lang mockadoc\n") port)
