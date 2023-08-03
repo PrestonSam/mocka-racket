@@ -1,12 +1,12 @@
 #lang racket/base
 
 (require syntax/parse/define
-         sam-utils/function
+         workbench/function
          (for-syntax racket/base
                      racket/match
-                     sam-utils/define
-                     sam-utils/function
-                     sam-utils/list
+                     workbench/define
+                     workbench/function
+                     workbench/list
                      "../thrungle.mkg"))
 
 (provide row-gen)

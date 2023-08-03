@@ -152,4 +152,38 @@
         (event-struct
          event.name
          (list event.column ...)
-         get-row-gen)))])
+         get-row-gen))
+
+      (module+ main
+        (require racket/sequence
+                 mockadoc/structs
+                 workbench/define
+                 workbench/interactive)
+        (printf "Generating data for ~a\n" event.name)
+        (define*
+          [DESIRED-ROW-COUNT (ask "How many rows?" string->number #:same-line? #t)]
+          [IDENTITY-COUNT (ask "Generate how many distinct identities?" string->number #:same-line? #t)]
+          [rows-file-name (format "~a-Rows.csv" event.name)]
+          [event-columns (list event.column ...)]
+          [generator ((event-struct-row-gen event-data) IDENTITY-COUNT)])
+
+        (printf "Writing to '~a'\n" rows-file-name)
+        
+        (time
+         (with-output-to-file rows-file-name
+           (thunk
+            ;; Header row
+            (for ([column (sequence-map column-struct-template-name (in-list event-columns))])
+              (display column)
+              (display ","))
+            (newline)
+
+            ;; Body
+            (for ([n (in-range DESIRED-ROW-COUNT)])
+              (for ([cell (in-list (generator))])
+                (display cell)
+                (display ","))
+              (newline)))
+           
+           #:exists 'truncate))
+        (displayln "File written")))])
