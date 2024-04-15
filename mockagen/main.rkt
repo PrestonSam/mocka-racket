@@ -14,7 +14,7 @@
 (module+ reader
   (provide read-syntax))
 
-(define src "/home/sam/Talanta10/dfs-portal-be/codegen/Racket/Experimental/Events/Transaction/event-types.mkg")
+(define src "path/to/generic-event-types.mkg")
 
 (define (make-syntax-tree)
   (let* ([port (open-input-file src)])
@@ -60,3 +60,7 @@
 
 #;(expand-only #`(#%lang-module-begin #,(make-syntax-tree))
              (list #'#%lang-module-begin))
+
+(match (syntax->datum (make-syntax-tree))
+  [(list 'body (list 'statements _ ... (and (list 'nested-definition _ ...) nested-definition) _ ...))
+   nested-definition])
