@@ -4,7 +4,7 @@ event : /NEWLINE* /"EVENT" STRING typedef /NEWLINE columns /NEWLINE*
 
 typedef : /"TYPEDEF" STRING
 
-columns : column+
+columns : (column /NEWLINE*)+
 
 column : /"-" template-name internal-name druid-type generator-name suffix? /NEWLINE
 

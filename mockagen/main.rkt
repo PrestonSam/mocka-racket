@@ -14,14 +14,14 @@
 (module+ reader
   (provide read-syntax))
 
-(define src "path/to/generic-event-types.mkg")
+#;(define src "path/to/generic-event-types.mkg")
 
-(define (make-syntax-tree)
+#;(define (make-syntax-tree)
   (let* ([port (open-input-file src)])
     (read-string (string-length "#lang mockagen\n") port)
     (parse src (make-tokeniser port src))))
 
-(define (make-token-list)
+#;(define (make-token-list)
   (define next
     (let* ([port (open-input-file src)])
       (read-string (string-length "#lang mockagen\n") port)
@@ -36,10 +36,10 @@
       [(srcloc-token (token-struct type val _ _ _ _ _) _)
        (loop `((,type ,val) . ,out))])))
 
-(require brag/support
+#;(require brag/support
          racket/sequence)
 
-(define (check-tokens)  
+#;(define (check-tokens)  
   (for*/list ([token (sequence-map srcloc-token-token (in-list (make-token-list)))]
               [type (in-value (token-struct-type token))]
               [val (in-value (token-struct-val token))]
@@ -61,6 +61,7 @@
 #;(expand-only #`(#%lang-module-begin #,(make-syntax-tree))
              (list #'#%lang-module-begin))
 
-(match (syntax->datum (make-syntax-tree))
+#;(match (syntax->datum (make-syntax-tree))
   [(list 'body (list 'statements _ ... (and (list 'nested-definition _ ...) nested-definition) _ ...))
    nested-definition])
+
